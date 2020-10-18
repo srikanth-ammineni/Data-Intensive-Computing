@@ -1,0 +1,60 @@
+hdfs dfs -rmr /project2/*
+
+hdfs dfs -mkdir /project2/gutenberg
+hdfs dfs -mkdir /project2/join
+hdfs dfs -mkdir /project2/knn
+
+hdfs dfs -copyFromLocal ./gutenberg/*  /project2/gutenberg/
+hdfs dfs -copyFromLocal ./join/*  /project2/join/
+hdfs dfs -copyFromLocal ./knn/*  /project2/knn/
+
+hdfs dfs -ls /project2/gutenberg/
+hdfs dfs -ls /project2/join/
+hdfs dfs -ls /project2/knn/
+
+
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -D mapred.reduce.tasks=2 -file /home/cse587/mapper1.py -mapper /home/cse587/mapper1.py -file /home/cse587/reducer1.py -reducer /home/cse587/reducer1.py -input /project2/gutenberg/* -output /project2/output1
+
+hdfs dfs -ls /project2/output1/
+
+hdfs dfs -cat /project2/output1/* 
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -D mapred.reduce.tasks=2 -file /home/cse587/mapper2-1.py -mapper /home/cse587/mapper2-1.py -file /home/cse587/reducer2-1.py -reducer /home/cse587/reducer2-1.py -input /project2/gutenberg/* -output /project2/output2-1
+
+hdfs dfs -ls /project2/output2-1/
+
+hdfs dfs -cat /project2/output2-1/* 
+
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -file /home/cse587/mapper2-2.py -mapper /home/cse587/mapper2-2.py -file /home/cse587/reducer2-2.py -reducer /home/cse587/reducer2-2.py -input /project2/output2-1/* -output /project2/output2-2
+
+hdfs dfs -ls /project2/output2-2/
+
+hdfs dfs -cat /project2/output2-2/* 
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -D mapred.reduce.tasks=2 -file /home/cse587/mapper3.py -mapper /home/cse587/mapper3.py -file /home/cse587/reducer3.py -reducer /home/cse587/reducer3.py -input /project2/gutenberg/* -output /project2/output3
+
+hdfs dfs -ls /project2/output3/
+
+hdfs dfs -cat /project2/output3/* 
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -D mapred.reduce.tasks=2 -file /home/cse587/mapper4.py -mapper /home/cse587/mapper4.py -file /home/cse587/reducer4.py -reducer /home/cse587/reducer4.py -input /project2/join/* -output /project2/output4
+
+hdfs dfs -ls /project2/output4/
+
+hdfs dfs -cat /project2/output4/* 
+
+
+hadoop jar /home/cse587/hadoop-3.1.2/share/hadoop/tools/lib/hadoop-streaming-3.1.2.jar -D mapred.map.tasks=2 -file /home/cse587/knn/Test.csv -file /home/cse587/mapper5.py -mapper /home/cse587/mapper5.py -file /home/cse587/reducer5.py -reducer /home/cse587/reducer5.py -input /project2/knn/Train.csv -output /project2/output5
+
+
+hdfs dfs -ls /project2/output5/
+
+hdfs dfs -cat /project2/output5/* 
+

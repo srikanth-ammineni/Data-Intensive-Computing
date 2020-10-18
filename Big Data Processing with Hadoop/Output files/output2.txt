@@ -1,0 +1,10 @@
+of_the_$: 123	
+the_$_and: 53	
+from_the_$: 35	
+in_the_$: 35	
+to_the_$: 30	
+the_open_$: 28	
+the_$_of: 22	
+$_and_the: 19	
+the_$_the: 17	
+the_$_to: 17	
